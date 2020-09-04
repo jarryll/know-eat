@@ -18,9 +18,16 @@ module.exports = (dbPoolInstance) =>{
             return result
     }
 
+    let addFood = async (queryValues) => {
+        let query = "INSERT INTO food_items (name, calories, user_id) VALUES ($2, $3, $1);"
+        let result = await dbPoolInstance.query(query, queryValues)
+            return result
+    }
+
     return {
         findUser,
-        getFoodLog
+        getFoodLog,
+        addFood
     }
 
 }

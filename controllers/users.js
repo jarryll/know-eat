@@ -1,6 +1,9 @@
 // For user authentication
 const SALT = "it's fun to build apps";
 const hash = require('js-sha256');
+const fetch = require('node-fetch');
+const appKey = '83410c2b3c621c95336cbc5a222924d9'
+const appId = '6673ca50'
 
 module.exports = (db) => {
 
@@ -28,6 +31,7 @@ module.exports = (db) => {
                 res.cookie('loggedIn', hash(`${SALT}-${hash(`${result.rows[0]["id"]}`)}-true`))
                 res.cookie('user_id', hash(`${result.rows[0]['id']}`))
                 res.cookie('username', `${result.rows[0]['username']}`)
+                res.cookie('user',`${result.rows[0]['id']}`)
                 res.redirect('/')
             } else {
                 res.send('please create an account')
@@ -38,7 +42,28 @@ module.exports = (db) => {
     }
 
     let logFood = async (req, res) => {
-       res.send("jialat")
+        let user = req.cookies['user']
+        console.log(user)
+        let findFood = async (foodName) => {
+            let url = `https://api.edamam.com/api/food-database/v2/parser?ingr=${foodName}&app_id=${appId}&app_key=${appKey}`
+            try {
+                let response = await fetch(url)
+                let foodInfo = await response.json();
+                let calories = (foodInfo["parsed"][0]["food"]["nutrients"]["ENERC_KCAL"])
+                try {
+                    let queryValues = [user, foodInfo.text, calories]
+                    let result = await db.users.addFood(queryValues)
+                    res.redirect("/")
+                } catch(err) {
+                    console.log(err.stack);
+                    throw('something went wrong with adding food item')
+                }
+            } catch (err) {
+                console.log(err.stack)
+                throw("no such food")
+            }
+        }
+       findFood(req.body.foodItem)
     }
 
     return {

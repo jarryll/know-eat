@@ -27,7 +27,7 @@ export default class Main extends React.Component{
                     <label htmlFor ="foodItem">Food Item</label>
                     <input type ="text" id="foodInput" name="foodItem"/>
                     <div>
-                        <button type="button" id="foodInputButton">Log it!</button>
+                        <button type="submit" id="foodInputButton">Log it!</button>
                     </div>
                     </form>
                 </div>
