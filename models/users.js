@@ -13,7 +13,7 @@ module.exports = (dbPoolInstance) =>{
     }
 
     let getFoodLog = async (queryValues) => {
-        let query = "SELECT dates.date, food_items.name, food_items.calories, food_items.notes  FROM users INNER JOIN dates ON users.id = dates.user_id INNER JOIN food_items ON dates.id = food_items.date_id WHERE users.username = $1 AND dates.date= CURRENT_DATE;"
+        let query = "SELECT food_items.name, food_items.calories, food_items.notes, food_items.created_at FROM users INNER JOIN food_items ON users.id = food_items.user_id WHERE users.username = $1 AND food_items.created_at = CURRENT_DATE;"
         let result = await dbPoolInstance.query(query, queryValues)
             return result
     }

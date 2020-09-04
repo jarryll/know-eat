@@ -2,10 +2,10 @@ INSERT INTO users (username, password_hashed) VALUES ('patientZero', 'aae68611be
 
 INSERT INTO users (username, password_hashed) VALUES ('lisaM', '7fc7d61b84148012ff048f01e063738db5088864830d19acb1b45f0c41780f1c');
 
-INSERT INTO dates (user_id) VALUES (1);
+INSERT INTO food_items (name, calories, notes, user_id) VALUES ('chicken rice', 360, 'opted for a half portion', 1);
 
-INSERT INTO food_items (name, calories, notes, date_id) VALUES ('chicken rice', 360, 'just testing this shit out', 1);
+INSERT INTO food_items (name, calories, notes, user_id) VALUES ('tacos', 476, 'not too nice', 1);
 
+INSERT INTO food_items (name, calories, notes, user_id) VALUES ('steak', 800, '500g', 2);
 
-
-SELECT users.username, dates.date, food_items.name, food_items.calories, food_items.notes  FROM users INNER JOIN dates ON users.id = dates.user_id INNER JOIN food_items ON dates.id = food_items.date_id WHERE users.username = 'patientZero' AND dates.date= CURRENT_DATE;
+INSERT INTO food_items (name, calories, notes, user_id) VALUES ('hamburger', 800, 'love this shizz', 2);
