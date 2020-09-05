@@ -1,9 +1,9 @@
 module.exports = (dbPoolInstance) =>{
 
-    let findUser = async (queryValues) => {
+    const findUser = async (queryValues) => {
         try {
-            let query = "SELECT * FROM users WHERE username = $1 AND password_hashed = $2;"
-            let result = await dbPoolInstance.query(query, queryValues)
+            const query = "SELECT * FROM users WHERE username = $1 AND password_hashed = $2;"
+            const result = await dbPoolInstance.query(query, queryValues)
                 return result
         }
         catch (err) {
@@ -12,22 +12,42 @@ module.exports = (dbPoolInstance) =>{
         }
     }
 
-    let getFoodLog = async (queryValues) => {
-        let query = "SELECT food_items.name, food_items.calories, food_items.notes, food_items.created_at FROM users INNER JOIN food_items ON users.id = food_items.user_id WHERE users.username = $1 AND food_items.created_at = CURRENT_DATE;"
-        let result = await dbPoolInstance.query(query, queryValues)
+    const getFoodLog = async (queryValues) => {
+        const query = "SELECT * FROM food_items WHERE user_id = $1 AND created_at = CURRENT_DATE;"
+        try {
+            const result = await dbPoolInstance.query(query, queryValues)
             return result
+        } catch (err) {
+            throw (err)
+        }
     }
 
-    let addFood = async (queryValues) => {
-        let query = "INSERT INTO food_items (name, calories, user_id) VALUES ($2, $3, $1);"
-        let result = await dbPoolInstance.query(query, queryValues)
+    const addFood = async (queryValues) => {
+        const query = "INSERT INTO food_items (name, calories, notes, user_id) VALUES ($2, $3, $4, $1);"
+        try {
+            const result = await dbPoolInstance.query(query, queryValues)
             return result
+        } catch (err) {
+            throw (err)
+        }
+    }
+
+    const deleteFood = async (queryValues) => {
+        const query = "DELETE FROM food_items WHERE id = $1;"
+        try {
+            const result = await dbPoolInstance.query(query, queryValues)
+            return result
+        } catch (err) {
+            throw (err)
+        }
+
     }
 
     return {
         findUser,
         getFoodLog,
-        addFood
+        addFood,
+        deleteFood
     }
 
 }

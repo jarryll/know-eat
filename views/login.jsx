@@ -25,6 +25,9 @@ export default class Login extends React.Component {
                         </div>
                         <button type="submit" id="signIn" className="btn btn-primary btn-lg btn-block">Sign in</button>
                     </form>
+                    <form method="GET" action="/register">
+                        <button type="submit" id="register">Register</button>
+                    </form>
                     </div>
                 </body>
             </html>

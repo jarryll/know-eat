@@ -1,21 +1,14 @@
+let calorieArr = [];
+let caloriesObj = document.querySelectorAll('.calories');
 
+for (const entry of caloriesObj) {
+    calorieArr.push(entry.innerText);
+}
 
+let totalCalories = calorieArr.reduce((a, b) =>  parseInt(a) + parseInt(b), 0);
 
-// let foodInput = document.getElementById('foodInput');
+let totalCaloriesDisplay = document.createElement('h2')
+totalCaloriesDisplay.className = "total"
+totalCaloriesDisplay.innerText = `Total calories consumed: ${totalCalories} kcal`
 
-// let clickHandler = () => {
-//     let findFood = async (foodName) => {
-//         let url = `https://api.edamam.com/api/food-database/v2/parser?ingr=${foodName}&app_id=${appId}&app_key=${appKey}`
-//         try {
-//             let response = await fetch(url)
-//             let foodInfo = await response.json();
-//             let calories = (foodInfo["parsed"][0]["food"]["nutrients"]["ENERC_KCAL"])
-//         } catch(err) {
-//             console.error(err.stack);
-//             alert("Sorry, food not found.");
-//         }
-//     }
-//     findFood(foodInput.value);
-// }
-
-// document.getElementById("foodInputButton").addEventListener("click", clickHandler)
+document.querySelector('.totalCaloriesDisplay').appendChild(totalCaloriesDisplay);
