@@ -8,7 +8,7 @@ module.exports = (dbPoolInstance) =>{
         }
         catch (err) {
             console.log(err.stack)
-            throw "findUser error"
+            throw new Error ("findUserError");
         }
     }
 
@@ -18,7 +18,8 @@ module.exports = (dbPoolInstance) =>{
             const result = await dbPoolInstance.query(query, queryValues)
             return result
         } catch (err) {
-            throw (err)
+            console.log(err.stack)
+            throw new Error ("Can't retrieve food log from database");
         }
     }
 
@@ -28,7 +29,8 @@ module.exports = (dbPoolInstance) =>{
             const result = await dbPoolInstance.query(query, queryValues)
             return result
         } catch (err) {
-            throw (err)
+            console.log(err.stack)
+            throw new Error ("failed to add food")
         }
     }
 
@@ -38,7 +40,30 @@ module.exports = (dbPoolInstance) =>{
             const result = await dbPoolInstance.query(query, queryValues)
             return result
         } catch (err) {
-            throw (err)
+            console.log(err.stack)
+            throw new Error ("delete item failed")
+        }
+    }
+
+    const checkUsername = async (queryValues) => {
+        const query = "SELECT * FROM users WHERE username = $1;"
+        try {
+            const result = await dbPoolInstance.query(query, queryValues)
+            return result
+        } catch (err) {
+            console.log(err.stack)
+            throw new Error ('checkUsername error')
+        }
+    }
+
+    const addNewUser = async (queryValues) => {
+        const query = "INSERT INTO users (username, password_hashed) VALUES ($1, $2);"
+        try {
+            const result = await dbPoolInstance.query(query, queryValues);
+            return result
+        } catch (err) {
+            console.log(err.stack)
+            throw new Error ('addNewUser error')
         }
 
     }
@@ -47,7 +72,9 @@ module.exports = (dbPoolInstance) =>{
         findUser,
         getFoodLog,
         addFood,
-        deleteFood
+        deleteFood,
+        checkUsername,
+        addNewUser
     }
 
 }

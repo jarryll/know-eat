@@ -7,5 +7,11 @@ module.exports = (app, allModels) => {
   app.post('/addItem', usersCallbacks.logFood)
   app.get('/logout', usersCallbacks.logOut)
   app.delete('/remove', usersCallbacks.removeFood)
+  app.get('/register', usersCallbacks.registerForm)
+  app.post('/newUser', usersCallbacks.createUser)
+  app.get('/err', usersCallbacks.backToMain)
+  app.get('/success', usersCallbacks.directToLogin)
+  app.get('/userNotFound', usersCallbacks.directToLogin)
+  app.get('/userExists', usersCallbacks.backToRegister)
 
   };

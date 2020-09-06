@@ -6,7 +6,6 @@ export default class Main extends React.Component{
         let foodItems = foodLog.rows
         let today = new Date();
         let date = today.getDate() + ' ' +today.toLocaleString('default', {month: 'short'})
-        console.log(foodItems);
         let foodList = foodItems.map((item, index) => {
             return (
                 <div key={index}>

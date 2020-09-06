@@ -12,7 +12,7 @@ export default class Login extends React.Component {
                 </head>
                 <body>
                     <div className="container">
-                    <h2 className="text-center">Know Eat</h2>
+                    <h2 className="text-center">Know Eat!</h2>
                     <p className="text-center">Keep track of what you eat</p>
                     <form method="POST" action="/user">
                         <div className="form-group">

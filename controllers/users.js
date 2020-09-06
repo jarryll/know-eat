@@ -35,10 +35,11 @@ module.exports = (db) => {
                 res.cookie('user',`${result.rows[0]['id']}`)
                 res.redirect('/')
             } else {
-                res.send('please create an account')
+                res.render('nosuchuser')
             }
         } catch (err) {
             console.log(err.stack)
+            throw new Error ("checkCredentials function not working ")
             }
     }
 
@@ -60,7 +61,6 @@ module.exports = (db) => {
 
     const logFood = async (req, res) => {
         const user = req.cookies['user']
-        console.log(user)
         try {
          const { calories, foodItem } = await findFood(req.body.foodItem);
          const queryValues = [user, foodItem, calories, req.body.notes];
@@ -68,7 +68,7 @@ module.exports = (db) => {
          res.redirect('/');
         } catch (err) {
             res.render('error')
-            throw err
+            throw new Error ("failed to add food to database")
         }
     }
 
@@ -90,11 +90,50 @@ module.exports = (db) => {
         res.redirect('/')
     }
 
+    const registerForm = (req, res) => {
+        res.render('register')
+    }
+
+    const createUser = async (req, res) => {
+        let queryValues = [req.body.username];
+        try {
+            let result = await db.users.checkUsername(queryValues);
+            if (result.rowCount === 0) {
+                queryValues = [req.body.username, hash(req.body.password)]
+                result = await db.users.addNewUser(queryValues)
+                res.render('success')
+            }
+            else {
+                res.render('tryagain')
+            }
+        } catch (err) {
+            console.log(err.stack)
+            throw new Error ('createUser error')
+        }
+    }
+
+    const backToMain = (req, res) => {
+        res.redirect('/')
+    }
+
+    const directToLogin = (req, res) => {
+        res.render('login')
+    }
+
+    const backToRegister = (req, res) => {
+        res.render('register')
+    }
+
     return {
         displayMain,
         checkCredentials,
         logFood,
         removeFood,
-        logOut
+        logOut,
+        registerForm,
+        createUser,
+        backToMain,
+        directToLogin,
+        backToRegister
     }
 }
