@@ -1,0 +1,59 @@
+body {
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.main-container {
+	margin-top: 85px;
+}
+
+#signIn {
+	margin-top: 30px;
+}
+
+#notes {
+	rows: 4;
+}
+
+.navbar-custom {
+	background-color: #69A88D ;
+}
+
+#welcome {
+	font-style: italic;
+}
+
+.food-log {
+	margin-top: 20px;
+}
+
+#date-dashboard {
+	font-size: 20px;
+	margin-bottom: 15px;
+}
+
+#date{
+	font-weight: 600;
+	text-decoration: underline;
+}
+
+.total {
+	font-size: 1.5em;
+}
+
+.add-food {
+	margin-top: 20px;
+}
+
+.notes {
+	margin-top: 5px;
+}
+
+.log-food-btn {
+	margin-top: 15px;
+}
+
+#foodInputButton {
+	background-color: #69A88D ;
+	border: 1px solid #69A88D;
+}
