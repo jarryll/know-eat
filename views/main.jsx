@@ -56,7 +56,7 @@ export default class Main extends React.Component{
                         <thead>
                             <tr>
                                 <th scope="col">Food</th>
-                                <th scope="col">Calories (kCal)</th>
+                                <th scope="col">Calories (kcal) per 100g serving</th>
                                 <th scope="col">Notes</th>
                                 <th scope="col"></th>
                         </tr>
