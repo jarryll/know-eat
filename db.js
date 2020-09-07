@@ -1,6 +1,7 @@
 console.log("we are in our db config!")
 
 const pg = require('pg');
+const url = require('url');
 
 var configs;
 
