@@ -65,7 +65,18 @@ module.exports = (dbPoolInstance) =>{
             console.log(err.stack)
             throw new Error ('addNewUser error')
         }
+    }
 
+    const getWeeklyData = async(queryValues) => {
+        console.log("this function executed")
+        const query = "SELECT SUM(calories), TO_CHAR(created_at, 'FMDD MON') FROM food_items WHERE user_id = $1 AND created_at > current_date - interval '7 days' GROUP BY created_at ORDER BY created_at ASC;"
+        try {
+           const result = await dbPoolInstance.query(query, queryValues);
+            return result
+        } catch (err) {
+            console.log(err.stack)
+            throw new Error ('getWeeklyData error')
+        }
     }
 
     return {
@@ -74,7 +85,8 @@ module.exports = (dbPoolInstance) =>{
         addFood,
         deleteFood,
         checkUsername,
-        addNewUser
+        addNewUser,
+        getWeeklyData
     }
 
 }

@@ -124,6 +124,19 @@ module.exports = (db) => {
         res.render('register')
     }
 
+    const weeklyData = async (req, res)=> {
+        console.log("weekly data function called")
+        const user = req.cookies['user']
+        const queryValues = [user]
+        try {
+            const result = await db.users.getWeeklyData(queryValues);
+            res.send(result)
+        } catch (err) {
+            console.log(err.stack)
+            throw new Error ('fetching weekly data failed')
+        }
+    }
+
     return {
         displayMain,
         checkCredentials,
@@ -134,6 +147,7 @@ module.exports = (db) => {
         createUser,
         backToMain,
         directToLogin,
-        backToRegister
+        backToRegister,
+        weeklyData
     }
 }

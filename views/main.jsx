@@ -1,4 +1,5 @@
 import React from 'react';
+const fetch = require('node-fetch');
 
 export default class Main extends React.Component{
     render(){
@@ -29,6 +30,7 @@ export default class Main extends React.Component{
             <head>
                 <meta charSet="utf-8"/>
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+                     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
                     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossOrigin="anonymous"/>
                     <link rel="stylesheet" type="text/css" href="css/main-style.css"/>
                     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
@@ -86,6 +88,13 @@ export default class Main extends React.Component{
                             </div>
                         </div>
                     </form>
+                    <div className="weekly-view">
+                        <h2>Weekly intake</h2>
+                    </div>
+                    <div className="chart-container">
+                    <canvas id="chartDiv"></canvas>
+                    </div>
+
                 </div>
                 <script src="script.js" type="text/javascript"></script>
                 </div>
