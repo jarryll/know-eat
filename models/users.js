@@ -23,6 +23,17 @@ module.exports = (dbPoolInstance) =>{
         }
     }
 
+    const getDates = async (queryValues) =>{
+        const query = "SELECT DISTINCT TO_CHAR(created_at, 'FMDD MON YYYY') FROM food_items WHERE user_id = $1;"
+        try {
+            const result = await dbPoolInstance.query(query, queryValues)
+            return result
+        } catch (err) {
+            console.log(err.stack)
+            throw new Error ("failed to fetch dates");
+        }
+    }
+
     const addFood = async (queryValues) => {
         const query = "INSERT INTO food_items (name, calories_per_serve, serving_size, total_calories, notes, user_id) VALUES ($2, $3, $4, $6, $5, $1);"
         try {
@@ -78,6 +89,17 @@ module.exports = (dbPoolInstance) =>{
         }
     }
 
+    const getDay = async (queryValues) => {
+        const query = "SELECT * FROM food_items WHERE user_id = $1 AND created_at = TO_DATE($2, 'FMDD-MON-YYYY');"
+        try {
+           const result = await dbPoolInstance.query(query, queryValues);
+            return result.rows
+        } catch (err) {
+            console.log(err.stack)
+            throw new Error ('get daily data error')
+        }
+    }
+
     return {
         findUser,
         getFoodLog,
@@ -85,7 +107,9 @@ module.exports = (dbPoolInstance) =>{
         deleteFood,
         checkUsername,
         addNewUser,
-        getWeeklyData
+        getWeeklyData,
+        getDates,
+        getDay
     }
 
 }

@@ -14,8 +14,9 @@ module.exports = (db) => {
             const userNameCookie = req.cookies['username']
             const user = req.cookies['user']
             const queryValues = [user]
+            const dateLog = await db.users.getDates(queryValues);
             const foodLog = await db.users.getFoodLog(queryValues);
-            if (loggedInCookie === hash(`${SALT}-${userIdCookie}-true`)) {res.render ('main', { userNameCookie, foodLog })}
+            if (loggedInCookie === hash(`${SALT}-${userIdCookie}-true`)) {res.render ('main', { userNameCookie, foodLog, dateLog })}
             else {
                 res.clearCookie('loggedIn');
                 res.render('login')
@@ -115,7 +116,6 @@ module.exports = (db) => {
     }
 
     const weeklyData = async (req, res)=> {
-        console.log("weekly data function called")
         const user = req.cookies['user']
         const queryValues = [user]
         try {
@@ -124,6 +124,20 @@ module.exports = (db) => {
         } catch (err) {
             console.log(err.stack)
             throw new Error ('fetching weekly data failed')
+        }
+    }
+
+    const displayLogs = async (req, res) => {
+        const user = req.cookies['user']
+        const date = req.params.date
+        const queryValues = [user, date]
+        try {
+            const result = await db.users.getDay(queryValues);
+            console.log(result, "-------- from controller")
+            res.send(result)
+        } catch (err) {
+            console.log(err.stack)
+            throw new Error ('fetching daily data failed')
         }
     }
 
@@ -138,6 +152,7 @@ module.exports = (db) => {
         backToMain,
         directToLogin,
         backToRegister,
-        weeklyData
+        weeklyData,
+        displayLogs
     }
 }

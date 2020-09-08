@@ -93,10 +93,74 @@ const clickHandler = (event) =>{
         .catch(err => {
             const popup = document.getElementById("myPopup");
             popup.classList.toggle("show");
-            // alert("Sorry, information for this food item is currently unavailable. Please try another item.")
             if(popup.classList.contains("show"))
                 setTimeout(() => popup.classList.remove("show"), 2000)
             console.log(err.stack)});
 }
 
 foodInputButton.addEventListener('click', clickHandler)
+
+const dateNav = document.getElementById('date-select');
+
+const findDate = (event) => {
+    if (document.body.contains(document.getElementById('past-log'))) document.getElementById('daily-log').removeChild(document.getElementById('past-log'));
+    //create table
+    const table = document.createElement('table')
+    table.className = "table table-striped table-bordered table-hover"
+    table.id = "past-log"
+    //create table headers
+    const tableHeaders = document.createElement('thead');
+    // create tr for headers
+    const tableRowHeaders = document.createElement('tr');
+    // create th for tableRowHeaders
+    const foodColumn = document.createElement('th');
+    const caloriesPerServe = document.createElement('th');
+    const servingSize = document.createElement('th');
+    const totalCalories = document.createElement('th');
+    const notes = document.createElement('th');
+    foodColumn.innerText = "Food";
+    caloriesPerServe.innerText = "Calories (kcal) per 100g";
+    servingSize.innerText = "Serving size (g)";
+    totalCalories.innerText = "Calories based on serving size";
+    notes.innerText= "Notes";
+    tableRowHeaders.appendChild(foodColumn);
+    tableRowHeaders.appendChild(caloriesPerServe);
+    tableRowHeaders.appendChild(servingSize);
+    tableRowHeaders.appendChild(totalCalories);
+    tableRowHeaders.appendChild(notes);
+    //create table body
+     const tableBody = document.createElement('tbody')
+
+    fetch(`/showLog/${event.target.value}`)
+        .then(result => result.json())
+        .then(result => {
+            console.log(result)
+            result.forEach(item => {
+                const itemRow = document.createElement('tr');
+                const foodRow = document.createElement('td');
+                const caloriesRow = document.createElement('td');
+                const servingsRow = document.createElement('td');
+                const totalCaloriesRow = document.createElement('td');
+                const notesRow = document.createElement('td');
+                foodRow.innerText = item.name;
+                caloriesRow.innerText = item.calories_per_serve;
+                servingsRow.innerText = item.serving_size;
+                totalCaloriesRow.innerText = item.total_calories;
+                notesRow.innerText = item.notes;
+                itemRow.appendChild(foodRow);
+                itemRow.appendChild(caloriesRow);
+                itemRow.appendChild(servingsRow);
+                itemRow.appendChild(totalCaloriesRow);
+                itemRow.appendChild(notesRow);
+                tableBody.appendChild(itemRow);
+            })
+            table.appendChild(tableHeaders)
+            table.appendChild(tableBody)
+            tableHeaders.appendChild(tableRowHeaders);
+            document.getElementById('daily-log').appendChild(table)
+        })
+        .catch(err => console.log(err.stack))
+    console.log(event.target.value);
+}
+
+dateNav.addEventListener('change', findDate)

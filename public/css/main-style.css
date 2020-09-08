@@ -142,3 +142,14 @@ body {
   from {opacity: 0;}
   to {opacity:1 ;}
 }
+
+.daily-log-container {
+	margin-top: 60px;
+	margin-bottom: 40px;
+	display: flex;
+	justify-content: space-between;
+}
+
+#date-select {
+	width: 40%;
+}

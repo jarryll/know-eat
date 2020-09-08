@@ -14,5 +14,6 @@ module.exports = (app, allModels) => {
   app.get('/userNotFound', usersCallbacks.directToLogin)
   app.get('/userExists', usersCallbacks.backToRegister)
   app.get('/weekly', usersCallbacks.weeklyData)
+  app.get('/showLog/:date', usersCallbacks.displayLogs)
 
   };

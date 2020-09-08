@@ -2,10 +2,17 @@ import React from 'react';
 
 export default class Main extends React.Component{
     render(){
-        let { userNameCookie, foodLog } = this.props
+        let { userNameCookie, foodLog, dateLog } = this.props
         let foodItems = foodLog.rows
         let today = new Date();
         let date = today.getDate() + ' ' +today.toLocaleString('default', {month: 'short'})
+        console.log(dateLog)
+        let dateList = dateLog.rows.map((item, index) => {
+            return (
+                <option key={index} className="date-option" value={item.to_char}>{item.to_char}</option>
+                )
+        })
+        console.log(dateList)
         let foodList = foodItems.map((item, index) => {
             return (
                 <div key={index}>
@@ -82,7 +89,7 @@ export default class Main extends React.Component{
                             </div>
                             <div className="serving-size">
                                 <label htmlFor="serving">Serving Size (in grams)</label>
-                                <input type="number" className="form-control" name="serving" id="serving" placeholder="numbers only" required/>
+                                <input type="number" className="form-control" name="serving" id="serving" placeholder="Numeric values only" required/>
                             </div>
                             <div className="notes">
                                 <label htmlFor ="notes">Notes</label>
@@ -94,6 +101,18 @@ export default class Main extends React.Component{
                                 </button>
                             </div>
                         </div>
+
+                    <div className = "daily-log-container">
+                        <h2 htmlFor="date-select">Your past logs</h2>
+                        <select id="date-select">
+                        <option>SELECT DATE</option>
+                        {dateList}
+                        </select>
+                    </div>
+
+                    <div id="daily-log">
+                    </div>
+
                     <div className="weekly-view">
                         <h2>Weekly intake</h2>
                     </div>
