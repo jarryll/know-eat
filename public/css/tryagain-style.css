@@ -1,0 +1,27 @@
+body {
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.navbar-custom {
+	background-color: #69A88D ;
+}
+
+.container-custom {
+	margin-top: 250px;
+}
+
+.btn-custom {
+	background-color: #69A88D;
+	border: 0;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary, .btn-primary:active:focus {
+	background-color: #004e00 !important;
+	box-shadow: 0 0 0 0.2rem rgba(0, 78, 0, 0.25) !important;
+	border: 0 !important;
+}
+
+form {
+	margin-top: 20px;
+}

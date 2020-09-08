@@ -93,6 +93,7 @@ module.exports = (db) => {
                 res.redirect('/')
             }
             else {
+                console.log (result)
                 res.render('tryagain')
             }
         } catch (err) {

@@ -25,7 +25,6 @@ module.exports = (dbPoolInstance) =>{
 
     const addFood = async (queryValues) => {
         const query = "INSERT INTO food_items (name, calories_per_serve, serving_size, total_calories, notes, user_id) VALUES ($2, $3, $4, $6, $5, $1);"
-        console.log(queryValues, "----from Models")
         try {
             const result = await dbPoolInstance.query(query, queryValues)
             return result
@@ -69,7 +68,6 @@ module.exports = (dbPoolInstance) =>{
     }
 
     const getWeeklyData = async(queryValues) => {
-        console.log("this function executed")
         const query = "SELECT SUM(total_calories), TO_CHAR(created_at, 'FMDD MON') FROM food_items WHERE user_id = $1 AND created_at > current_date - interval '7 days' GROUP BY created_at ORDER BY created_at ASC;"
         try {
            const result = await dbPoolInstance.query(query, queryValues);

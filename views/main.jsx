@@ -46,7 +46,6 @@ export default class Main extends React.Component{
                     </form>
                 </nav>
             </div>
-
             <div className = "container main-container">
 
                 <h1 id="welcome">Welcome, {userNameCookie}.</h1>
@@ -83,14 +82,16 @@ export default class Main extends React.Component{
                             </div>
                             <div className="serving-size">
                                 <label htmlFor="serving">Serving Size (in grams)</label>
-                                <input type="number" className="form-control" name="serving" id="serving" placeholder="in grams" required/>
+                                <input type="number" className="form-control" name="serving" id="serving" placeholder="numbers only" required/>
                             </div>
                             <div className="notes">
                                 <label htmlFor ="notes">Notes</label>
                                 <textarea rows="4" cols="60" id="notes" className="form-control" name="notes" placeholder="Add your thoughts here!"/>
                             </div>
                             <div className="log-food-btn">
-                                <button type="button" className="btn btn-primary btn-lg btn-block" id="foodInputButton">Log it!</button>
+                                <button type="button" className="btn btn-primary btn-lg btn-block btn-custom popup" id="foodInputButton">Log it!
+                                    <p className="popuptext" id="myPopup">Sorry, information for this food item is currently unavailable. <br/>Please try another item.</p>
+                                </button>
                             </div>
                         </div>
                     <div className="weekly-view">
@@ -99,10 +100,9 @@ export default class Main extends React.Component{
                     <div className="chart-container">
                     <canvas id="chartDiv"></canvas>
                     </div>
-
                 </div>
-                <script src="script.js" type="text/javascript"></script>
                 </div>
+                     <script src="script.js" type="text/javascript"></script>
             </body>
             </html>
 

@@ -91,7 +91,11 @@ const clickHandler = (event) =>{
             });
         })
         .catch(err => {
-            alert("Sorry, information for this food item is currently unavailable. Please try another item.")
+            const popup = document.getElementById("myPopup");
+            popup.classList.toggle("show");
+            // alert("Sorry, information for this food item is currently unavailable. Please try another item.")
+            if(popup.classList.contains("show"))
+                setTimeout(() => popup.classList.remove("show"), 2000)
             console.log(err.stack)});
 }
 
