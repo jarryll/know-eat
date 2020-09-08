@@ -1,7 +1,6 @@
 // For user authentication
 const SALT = "it's fun to build apps";
 const hash = require('js-sha256');
-const fetch = require('node-fetch');
 const appKey = '83410c2b3c621c95336cbc5a222924d9'
 const appId = '6673ca50'
 
@@ -43,29 +42,15 @@ module.exports = (db) => {
             }
     }
 
-    const findFood = async (foodName) => {
-        const url = `https://api.edamam.com/api/food-database/v2/parser?ingr=${foodName}&app_id=${appId}&app_key=${appKey}`
-        try {
-            const response = await fetch(url)
-            const foodInfo = await response.json();
-            const calories = (foodInfo["parsed"][0]["food"]["nutrients"]["ENERC_KCAL"])
-            const foodItem = foodInfo.text
-            return {
-                calories,
-                foodItem
-            }
-        } catch (err) {
-            throw new Error("no such food item in database")
-        }
-    }
-
     const logFood = async (req, res) => {
         const user = req.cookies['user']
+        const { caloriesPerServe, foodItem, servingSize, notes } = req.body;
+        const totalCalories = parseInt(caloriesPerServe / 100 * servingSize);
+        let queryValues = [user, foodItem, caloriesPerServe, servingSize, notes, totalCalories]
+        console.log(queryValues)
         try {
-         const { calories, foodItem } = await findFood(req.body.foodItem);
-         const queryValues = [user, foodItem, calories, req.body.notes];
-         const result = await db.users.addFood(queryValues);
-         res.redirect('/');
+            const result = await db.users.addFood(queryValues);
+            res.send(result)
         } catch (err) {
             res.render('error')
             throw new Error ("failed to add food to database")
@@ -101,7 +86,11 @@ module.exports = (db) => {
             if (result.rowCount === 0) {
                 queryValues = [req.body.username, hash(req.body.password)]
                 result = await db.users.addNewUser(queryValues)
-                res.render('success')
+                res.cookie('loggedIn', hash(`${SALT}-${hash(`${result.rows[0]["id"]}`)}-true`))
+                res.cookie('user_id', hash(`${result.rows[0]['id']}`))
+                res.cookie('username', `${req.body.username}`)
+                res.cookie('user',`${result.rows[0]['id']}`)
+                res.redirect('/')
             }
             else {
                 res.render('tryagain')

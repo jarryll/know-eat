@@ -1,5 +1,4 @@
 import React from 'react';
-const fetch = require('node-fetch');
 
 export default class Main extends React.Component{
     render(){
@@ -13,7 +12,9 @@ export default class Main extends React.Component{
                     <form method="POST" action="/remove?_method=DELETE" >
                         <tr scope="row">
                             <td>{item.name}</td>
-                            <td className="calories">{item.calories}</td>
+                            <td>{item.calories_per_serve}</td>
+                            <td>{item.serving_size}</td>
+                            <td className="calories">{item.total_calories}</td>
                             <td>{item.notes}</td>
                             <td>
                                 <button type="submit" className="close" name={item.id} aria-label="Close">
@@ -58,7 +59,9 @@ export default class Main extends React.Component{
                         <thead>
                             <tr>
                                 <th scope="col">Food</th>
-                                <th scope="col">Calories (kcal) per 100g serving</th>
+                                <th scope="col">Calories (kcal) per 100g</th>
+                                <th scope="col">Serving size (g)</th>
+                                <th scope="col">Calories based on serving size</th>
                                 <th scope="col">Notes</th>
                                 <th scope="col"></th>
                         </tr>
@@ -73,21 +76,23 @@ export default class Main extends React.Component{
                  </div>
                  </div>
                 <div className="add-food form-group">
-                    <form method="POST" action="/addItem">
                         <div>
                             <div>
                                 <label htmlFor ="foodItem">Food Item</label>
-                                <input type ="text" className="form-control" id="foodInput" name="foodItem" placeholder="What did you eat today?"/>
+                                <input type ="text" className="form-control" id="foodInput" name="foodItem" placeholder="What did you eat today?" required/>
+                            </div>
+                            <div className="serving-size">
+                                <label htmlFor="serving">Serving Size (in grams)</label>
+                                <input type="number" className="form-control" name="serving" id="serving" placeholder="in grams" required/>
                             </div>
                             <div className="notes">
                                 <label htmlFor ="notes">Notes</label>
                                 <textarea rows="4" cols="60" id="notes" className="form-control" name="notes" placeholder="Add your thoughts here!"/>
                             </div>
                             <div className="log-food-btn">
-                                <button type="submit" className="btn btn-primary btn-lg btn-block" id="foodInputButton">Log it!</button>
+                                <button type="button" className="btn btn-primary btn-lg btn-block" id="foodInputButton">Log it!</button>
                             </div>
                         </div>
-                    </form>
                     <div className="weekly-view">
                         <h2>Weekly intake</h2>
                     </div>

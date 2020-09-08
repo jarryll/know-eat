@@ -1,3 +1,8 @@
+//Global constants for making API call
+const appKey = '83410c2b3c621c95336cbc5a222924d9'
+const appId = '6673ca50'
+
+
 // Calories display function
 let calorieArr = [];
 let caloriesObj = document.querySelectorAll('.calories');
@@ -14,8 +19,9 @@ totalCaloriesDisplay.innerText = `Total calories consumed: ${totalCalories} kcal
 
 document.querySelector('.totalCaloriesDisplay').appendChild(totalCaloriesDisplay);
 
-let url = "/weekly"
-console.log(url)
+
+//Function to populate chart
+const populateChart = (url) =>{
     fetch(url)
         .then (result => result.json())
         .then (result => {
@@ -43,17 +49,50 @@ console.log(url)
 
         })
         .catch (err => console.log(err.stack))
+}
+
+populateChart('/weekly');
+
+//Function to make API call
+
+const foodInputButton = document.getElementById('foodInputButton')
+const foodInput= document.getElementById('foodInput')
 
 
+const clickHandler = (event) =>{
+    console.log("click heard")
+    const foodName = document.getElementById('foodInput').value;
+    const servingSize = parseInt(document.getElementById('serving').value);
+    const notes = document.getElementById('notes').value;
+    const url = `https://api.edamam.com/api/food-database/v2/parser?nutrition-type=logging&ingr=${foodName}&app_id=${appId}&app_key=${appKey}`
+    fetch(url)
+        .then(result => result.json())
+        .then(result => {
+            const caloriesPerServe = parseInt(result['parsed'][0]['food']['nutrients']['ENERC_KCAL'])
+            const foodItem = result['text']
+            const foodInfo = {
+                caloriesPerServe: caloriesPerServe,
+                foodItem: foodItem,
+                servingSize: servingSize,
+                notes: notes
+            }
+            fetch('/addItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(foodInfo)
+            })
+            .then(result => {
+                console.log(result)
+                if (result) {
+                    redirect: window.location.assign('/')
+                }
+            });
+        })
+        .catch(err => {
+            alert("Sorry, information for this food item is currently unavailable. Please try another item.")
+            console.log(err.stack)});
+}
 
-         // let points = result.rows.map(item => {
-         //        return {x: item.to_char, y:item.sum}
-         //    })
-         //    JSC.Chart('chartDiv', {
-         //        series:[
-         //            {
-         //                points: points
-         //            }
-         //        ]
-         //    });
-         //    console.log (result.rows)
+foodInputButton.addEventListener('click', clickHandler)
