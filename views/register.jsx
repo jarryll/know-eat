@@ -33,6 +33,12 @@ export default class Register extends React.Component {
                             </div>
                             <button type="submit" id="signIn" className="btn btn-primary btn-lg btn-block btn-custom">Register</button>
                         </form>
+                        <div className="backToLogin-container">
+                            <form method="GET" action="/login">
+                                <p className="text-center">Already have an account?</p>
+                                <button type="submit" className="btn btn-primary btn-lg btn-block btn-custom" id="backToLogin">Log in here</button>
+                        </form>
+                        </div>
                         </div>
                     </div>
                     </div>

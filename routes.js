@@ -10,7 +10,7 @@ module.exports = (app, allModels) => {
   app.get('/register', usersCallbacks.registerForm)
   app.post('/newUser', usersCallbacks.createUser)
   app.get('/err', usersCallbacks.backToMain)
-  app.get('/success', usersCallbacks.directToLogin)
+  app.get('/login', usersCallbacks.directToLogin)
   app.get('/userNotFound', usersCallbacks.directToLogin)
   app.get('/userExists', usersCallbacks.backToRegister)
   app.get('/weekly', usersCallbacks.weeklyData)
